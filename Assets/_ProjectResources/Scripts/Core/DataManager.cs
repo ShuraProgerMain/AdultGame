@@ -1,4 +1,5 @@
-﻿using EmptySoul.AdultTwitch.Core.Authorize;
+﻿using System;
+using EmptySoul.AdultTwitch.Core.Authorize;
 using EmptySoul.AdultTwitch.Core.Controllers;
 using EmptySoul.AdultTwitch.Core.GlobalEvents;
 using EmptySoul.AdultTwitch.Core.UserData;
@@ -25,6 +26,12 @@ namespace EmptySoul.AdultTwitch.Core
             ViewBroker.Context = _initCore.Context;
             ControllersBroker.Context = _initCore.Context;
             _miningController.Init();
+        }
+
+        private void Update()
+        {
+            if(Input.GetKeyDown(KeyCode.Escape))
+                Application.Quit();
         }
 
         public void InitUser(User user)
