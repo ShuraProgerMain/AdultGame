@@ -77,6 +77,8 @@
      <Compile Include="Assets\_ProjectResources\Scripts\Core\UISystem\MiddleUILayerButton.cs" />
      <Compile Include="Assets\_ProjectResources\Scripts\Core\UISystem\UILayer.cs" />
      <Compile Include="Assets\_ProjectResources\Scripts\Utils\GraduateHelper.cs" />
+     <Compile Include="Assets\_ProjectResources\Scripts\Mining\WorkerBroker.cs" />
+     <Compile Include="Assets\_ProjectResources\Scripts\Mining\MiningBroker.cs" />
      <None Include="Assets\TextMesh Pro\Shaders\TMPro.cginc" />
      <None Include="Assets\TextMesh Pro\Shaders\TMP_SDF-Mobile Overlay.shader" />
      <None Include="Assets\TextMesh Pro\Shaders\TMP_Bitmap.shader" />

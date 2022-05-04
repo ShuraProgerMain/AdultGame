@@ -15,13 +15,17 @@ namespace EmptySoul.AdultTwitch.Mining
         {
             signInPls.SetActive(false);
         }
-        
-        public void Init(string title, string price)
+        public void NextWorkerBuyButtonOn(string title, string price)
         {
-            buyButton.SetActive(true);
             buyButton.transform.SetSiblingIndex(Int32.MaxValue);
             buyButtonTitle.text = title;
             buyButtonPrice.text = price;
+            buyButton.SetActive(true);
+        }
+
+        public void NextWorkerBuyButtonOff()
+        {
+            buyButton.SetActive(false);
         }
     }
 }

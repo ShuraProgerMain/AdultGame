@@ -344,8 +344,8 @@ GameObject:
   - component: {fileID: 7747912618839110667}
   - component: {fileID: 7747912618839110669}
   - component: {fileID: 7747912618839110666}
-  - component: {fileID: 3810167287547503788}
   - component: {fileID: 5343871074895250977}
+  - component: {fileID: 5045188393750102436}
   m_Layer: 5
   m_Name: WorkerView
   m_TagString: Untagged
@@ -417,19 +417,6 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
---- !u!114 &3810167287547503788
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7747912618839110664}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 02cc9c5d9d0592d4f97ae6f3577da99b, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  view: {fileID: 5343871074895250977}
 --- !u!114 &5343871074895250977
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -442,12 +429,26 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 645df43ed8c2bdc40a8e45801436d76d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  icon: {fileID: 7747912619576698398}
   title: {fileID: 7747912619581407111}
   count: {fileID: 7747912619812200007}
   price: {fileID: 7747912618859988309}
   profit: {fileID: 7747912619899213626}
   timer: {fileID: 7747912619441437442}
   progressBar: {fileID: 2091501052065343416}
+--- !u!114 &5045188393750102436
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7747912618839110664}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: faf0017aa890ec34f92254e882fd6307, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  view: {fileID: 5343871074895250977}
 --- !u!1 &7747912618859988307
 GameObject:
   m_ObjectHideFlags: 0
@@ -1340,9 +1341,8 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 3810167287547503788}
-        m_TargetAssemblyTypeName: EmptySoul.AdultTwitch.Mining.WorkerController,
-          Assembly-CSharp
+      - m_Target: {fileID: 5045188393750102436}
+        m_TargetAssemblyTypeName: EmptySoul.AdultTwitch.Mining.WorkerBroker, Assembly-CSharp
         m_MethodName: PurchaseWorker
         m_Mode: 1
         m_Arguments:

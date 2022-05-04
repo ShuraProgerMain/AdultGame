@@ -10,13 +10,14 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 6363e50fbaa53b247bbc67bb03f47d0b, type: 3}
-  m_Name: WorkerTwo
+  m_Name: Worker_Donation
   m_EditorClassIdentifier: 
+  icon: {fileID: 21300000, guid: 3860ece08faf44205b1cb54a6d85a735, type: 3}
   title: Donations
   profit: 25
   workTime:
     hours: 0
     minutes: 0
-    seconds: 5
+    seconds: 3
   startPrice: 1000
   heightValue: 1.2

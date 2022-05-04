@@ -55,7 +55,7 @@ namespace EmptySoul.AdultTwitch.Gallery
             if (result)
             {
                 IsAvailableForPurchase = false;
-                productView.OnAvailable();
+                productView.OnPurchased();
                 PlayVideo();
                 _saveAction?.Invoke();
                 var contr = ControllersBroker.Get<GalleryController>() as GalleryController;

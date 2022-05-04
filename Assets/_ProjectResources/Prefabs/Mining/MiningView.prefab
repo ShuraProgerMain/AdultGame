@@ -346,8 +346,8 @@ GameObject:
   - component: {fileID: 7475932233424598237}
   - component: {fileID: 7475932233424598235}
   - component: {fileID: 7475932233424598234}
-  - component: {fileID: 398737360829192470}
   - component: {fileID: 8790363072633289879}
+  - component: {fileID: 4742965970782491440}
   m_Layer: 5
   m_Name: MiningView
   m_TagString: Untagged
@@ -415,25 +415,6 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
---- !u!114 &398737360829192470
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7475932233424598236}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c9446a1b50e2b264182d3790339359bc, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  view: {fileID: 8790363072633289879}
-  prefabController: {fileID: 3810167287547503788, guid: fbc69b8a51233b34087227b2f861e72f, type: 3}
-  dates:
-  - {fileID: 11400000, guid: f554338f21c9a8746a1b27ae0cf1a8cc, type: 2}
-  - {fileID: 11400000, guid: 60c9cd4ff532ca54eafa459b071d4c11, type: 2}
-  parent: {fileID: 7475932234143524273}
-  _activeWorkers: []
 --- !u!114 &8790363072633289879
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -450,6 +431,21 @@ MonoBehaviour:
   signInPls: {fileID: 4225370859371827877}
   buyButtonTitle: {fileID: 5829263270851488368}
   buyButtonPrice: {fileID: 7475932233775050863}
+--- !u!114 &4742965970782491440
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7475932233424598236}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f6767b59f0a8fb34da7d692386df7e74, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  view: {fileID: 8790363072633289879}
+  workerBroker: {fileID: 5045188393750102436, guid: fbc69b8a51233b34087227b2f861e72f, type: 3}
+  parent: {fileID: 7475932234143524273}
 --- !u!1 &7475932233429475372
 GameObject:
   m_ObjectHideFlags: 0
@@ -962,23 +958,10 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 398737360829192470}
-        m_TargetAssemblyTypeName: EmptySoul.AdultTwitch.Mining.MiningController,
-          Assembly-CSharp
+      - m_Target: {fileID: 4742965970782491440}
+        m_TargetAssemblyTypeName: EmptySoul.AdultTwitch.Mining.MiningBroker, Assembly-CSharp
         m_MethodName: PurchaseNextWorker
         m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
-      - m_Target: {fileID: 5829263270645867007}
-        m_TargetAssemblyTypeName: UnityEngine.GameObject, UnityEngine
-        m_MethodName: SetActive
-        m_Mode: 6
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine

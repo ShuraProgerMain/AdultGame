@@ -8,6 +8,8 @@ namespace EmptySoul.AdultTwitch.Mining
 {
     public class WorkerView : MonoBehaviour
     {
+
+        [SerializeField] private Image icon;
         [SerializeField] private TextMeshProUGUI title;
         [SerializeField] private TextMeshProUGUI count;
         [SerializeField] private TextMeshProUGUI price;
@@ -39,6 +41,7 @@ namespace EmptySoul.AdultTwitch.Mining
         
         private void TextUpdate(WorkerParams workerParams, WorkerData data)
         {
+            icon.sprite = data.icon;
             title.text = data.title;
             UpdateState(workerParams, data);
         }

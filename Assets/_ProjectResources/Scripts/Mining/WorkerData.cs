@@ -6,6 +6,7 @@ namespace EmptySoul.AdultTwitch.Mining
     [CreateAssetMenu (fileName = "Worker", menuName = "TwitchAdult/Worker")]
     public class WorkerData : ScriptableObject
     {
+        public Sprite icon;
         public string title;
         public double profit;
         public WorkTime workTime;

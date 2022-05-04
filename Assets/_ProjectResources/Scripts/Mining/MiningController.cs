@@ -12,18 +12,23 @@ using UnityEngine;
 
 namespace EmptySoul.AdultTwitch.Mining
 {
-    public class MiningController : MonoBehaviour
+    public class MiningController : MonoBehaviour, IController
     {
-        [SerializeField] private MiningView view;
-        [SerializeField] private WorkerController prefabController;
         [SerializeField] private WorkerData[] dates;
-        [SerializeField] private Transform parent;
 
-        [SerializeField] private List<WorkerController> _activeWorkers = new();
+        private readonly List<WorkerController> _activeWorkers = new();
 
         private int _workersCount;
-        private void OnEnable()
+        public int WorkersCount => _workersCount;
+        public WorkerData[] Dates => dates;
+        public List<WorkerController> ActiveWorkers => _activeWorkers;
+        public bool IsReady { get; private set; }
+
+
+        public void Init()
         {
+            ControllersBroker.Add(this);
+            
             EventsHandler.AddListener<Authorized>(Initialize);
             
             var dataManager = ControllersBroker.Context.Get<DataManager>() as DataManager;
@@ -71,7 +76,6 @@ namespace EmptySoul.AdultTwitch.Mining
 
             if (string.IsNullOrEmpty(data))
             {
-                _workersCount = 1;
                 AddWorker(new WorkerParams(){count = 1}, dates[0]);
             }
             else
@@ -82,51 +86,52 @@ namespace EmptySoul.AdultTwitch.Mining
                 {
                     AddWorker(list[index], dates[index]);
                 }
-
-                _workersCount = list.Count;
             }
 
-            view.ShowWorkers();
-            InitNextWorkerPurchase();
+            IsReady = true;
+            // view.ShowWorkers();
+            // InitNextWorkerPurchase();
         }
 
-        private void AddWorker(WorkerParams workerParams, WorkerData data)
+        public void AddWorker(WorkerParams workerParams, WorkerData data, Action<WorkerController> onCreate = default)
         {
-            var worker = Instantiate(prefabController, parent);
+            _workersCount++;
+            var worker = new WorkerController();
             worker.Initialize(workerParams, data);
             _activeWorkers.Add(worker);
+            onCreate?.Invoke(worker);
         }
 
-        public void PurchaseNextWorker()
-        {
-            var e = Events.CurrencyOperation;
-            e.Operation = ECurrencyOperation.Remove;
-            e.Amount = dates[_workersCount].startPrice;
-            e.Collback = AddNextWorker;
-            EventsHandler.Broadcast(e);
-        }
+        // public void PurchaseNextWorker()
+        // {
+        //     var e = Events.CurrencyOperation;
+        //     e.Operation = ECurrencyOperation.Remove;
+        //     e.Amount = dates[_workersCount].startPrice;
+        //     e.Collback = AddNextWorker;
+        //     EventsHandler.Broadcast(e);
+        // }
 
-        private void AddNextWorker(bool result)
-        {
-            if (result)
-            {
-                AddWorker(new WorkerParams(){count = 1}, dates[_workersCount]);
-            }
-            else
-            {
-                var e = Events.UIMiddleLayer;
-                e.Value = EMiddleLayerViews.Warning;
-                EventsHandler.Broadcast(e);
-            }
-            
-            InitNextWorkerPurchase();
-        }
-
-        private void InitNextWorkerPurchase()
-        {
-            if(dates.Length <= _workersCount) return;
-            
-            view.Init(dates[_workersCount].title, DigitHandler.FormatValue(dates[_workersCount].startPrice));
-        }
+        // private void AddNextWorker(bool result)
+        // {
+        //     if (result)
+        //     {
+        //         AddWorker(new WorkerParams(){count = 1}, dates[_workersCount]);
+        //     }
+        //     else
+        //     {
+        //         var e = Events.UIMiddleLayer;
+        //         e.Value = EMiddleLayerViews.Warning;
+        //         EventsHandler.Broadcast(e);
+        //     }
+        //     
+        //     InitNextWorkerPurchase();
+        // }
+        //
+        // private void InitNextWorkerPurchase()
+        // {
+        //     if(dates.Length <= _workersCount) return;
+        //     
+        //     view.Init(dates[_workersCount].title, DigitHandler.FormatValue(dates[_workersCount].startPrice));
+        // }
     }
 }

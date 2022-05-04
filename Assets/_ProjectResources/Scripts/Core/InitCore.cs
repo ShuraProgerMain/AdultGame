@@ -1,5 +1,6 @@
 ﻿using EmptySoul.AdultTwitch.Core.Authorize;
 using EmptySoul.AdultTwitch.Core.UserData;
+using EmptySoul.AdultTwitch.Mining;
 
 namespace EmptySoul.AdultTwitch.Core
 {

@@ -1,35 +1,43 @@
 using System;
 using System.Threading.Tasks;
+using EmptySoul.AdultTwitch.Core.Controllers;
 using EmptySoul.AdultTwitch.Core.GlobalEvents;
-using EmptySoul.AdultTwitch.Core.UISystem;
-using UnityEditor.UIElements;
 using UnityEngine;
 
 namespace EmptySoul.AdultTwitch.Mining
 {
-    public class WorkerController : MonoBehaviour
+    public class WorkerController : IController
     {
-        [SerializeField] private WorkerView view;
         private WorkerData _data;
-        [SerializeField] private WorkerParams _workerParams;
+        private WorkerParams _workerParams;
 
         private DateTime _startTime;
         private DateTime _endTime;
 
         private bool IsEnable;
-        
+
+        public Action<TimeSpan> OnTimeTick;
+        public Action<float> OnProgressTick;
+
         public WorkerParams WorkerParams => _workerParams;
+        public WorkerData WorkerData => _data;
 
-        private void Start()
-        {
-            IsEnable = true;
-            Mining();
-        }
-
-        private void OnDisable()
-        {
-            IsEnable = false;
-        }
+        // public WorkerController()
+        // {
+        //     IsEnable = true;
+        //     Mining();
+        // }
+        
+        // private void Start()
+        // {
+        //     IsEnable = true;
+        //     Mining();
+        // }
+        //
+        // private void OnDisable()
+        // {
+        //     IsEnable = false;
+        // }
 
         public void Initialize(WorkerParams worker, WorkerData data)
         {
@@ -43,36 +51,37 @@ namespace EmptySoul.AdultTwitch.Mining
                 Debug.Log($"Diff time {dif.TotalSeconds} and result {(dif.TotalSeconds / waitTime.TotalSeconds) * worker.count}");
                 SendProfit((dif.TotalSeconds / waitTime.TotalSeconds) * worker.count);
             }
+
+            IsEnable = true;
+            Mining();
         }
 
-        public void PurchaseWorker()
-        {
-            var e = Events.CurrencyOperation;
-            e.Operation = ECurrencyOperation.Remove;
-            e.Amount = _data.startPrice * _data.heightValue * _workerParams.count;
-            e.Collback = Purchase;
-            EventsHandler.Broadcast(e);
-        }
-
-        private void Purchase(bool result)
-        {
-            if (result)
-            {
-                _workerParams.count++;
-                view.UpdateState(_workerParams, _data);
-            }
-            else
-            {
-                var e = Events.UIMiddleLayer;
-                e.Value = EMiddleLayerViews.Warning;
-                EventsHandler.Broadcast(e);
-            }
-        }
+        // public void PurchaseWorker()
+        // {
+        //     var e = Events.CurrencyOperation;
+        //     e.Operation = ECurrencyOperation.Remove;
+        //     e.Amount = _data.startPrice * _data.heightValue * _workerParams.count;
+        //     e.Collback = Purchase;
+        //     EventsHandler.Broadcast(e);
+        // }
+        //
+        // private void Purchase(bool result)
+        // {
+        //     if (result)
+        //     {
+        //         _workerParams.count++;
+        //         view.UpdateState(_workerParams, _data);
+        //     }
+        //     else
+        //     {
+        //         var e = Events.UIMiddleLayer;
+        //         e.Value = EMiddleLayerViews.Warning;
+        //         EventsHandler.Broadcast(e);
+        //     }
+        // }
 
         private async void Mining()
         {
-            view.Initialize(_workerParams, _data);
-
             while (IsEnable)
             {
                 await Process();
@@ -97,9 +106,12 @@ namespace EmptySoul.AdultTwitch.Mining
             
             while (_endTime > DateTime.UtcNow && IsEnable)
             {
-                view.SetTimer((_endTime - DateTime.UtcNow));
-                view.SetProgress(Mathf.InverseLerp((float)_startTime.TimeOfDay.TotalSeconds,
-                    (float)_endTime.TimeOfDay.TotalSeconds, (float)DateTime.UtcNow.TimeOfDay.TotalSeconds));
+                OnTimeTick?.Invoke((_endTime - DateTime.UtcNow));
+                OnProgressTick?.Invoke((Mathf.InverseLerp((float)_startTime.TimeOfDay.TotalSeconds,
+                    (float)_endTime.TimeOfDay.TotalSeconds, (float)DateTime.UtcNow.TimeOfDay.TotalSeconds)));
+                // view.SetTimer((_endTime - DateTime.UtcNow));
+                // view.SetProgress(Mathf.InverseLerp((float)_startTime.TimeOfDay.TotalSeconds,
+                //     (float)_endTime.TimeOfDay.TotalSeconds, (float)DateTime.UtcNow.TimeOfDay.TotalSeconds));
                 await Task.Yield();
             }
         }

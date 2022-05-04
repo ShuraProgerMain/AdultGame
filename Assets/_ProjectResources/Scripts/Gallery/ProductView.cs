@@ -1,11 +1,8 @@
 using System;
-using EmptySoul.AdultTwitch.Core;
 using EmptySoul.AdultTwitch.Core.GlobalEvents;
 using EmptySoul.AdultTwitch.Utils;
 using TMPro;
-using Unity.VisualScripting;
 using UnityEngine;
-using UnityEngine.Serialization;
 using UnityEngine.UI;
 using UnityEngine.Video;
 
@@ -28,7 +25,6 @@ namespace EmptySoul.AdultTwitch.Gallery
         private bool _available;
 
         public Rect Rect => rawImage.rectTransform.rect;
-        public RectTransform RectTransform => rawImage.rectTransform;
         
         public void Init(ProductParams newParams, bool available)
         {
@@ -40,7 +36,13 @@ namespace EmptySoul.AdultTwitch.Gallery
 
         public void UpdatePricingView()
         {
-            CheckAvailable((result => substrate.color = result ? onColorSubstrate : offColorSubstrate));
+            CheckAvailable((result =>
+            {
+                if (result && _available)
+                    substrate.color = onColorSubstrate;
+                else
+                    substrate.color = offColorSubstrate;
+            }));
         }
         
         private void SetView(bool result)
@@ -57,24 +59,22 @@ namespace EmptySoul.AdultTwitch.Gallery
             }
             else
             {
-                OnAvailable();
+                OnPurchased();
             }
         }
 
         private void CheckAvailable(Action<bool> action)
         {
-            if (_available)
-            {
-                var e = Events.CurrencyOperation;
-                e.Operation = ECurrencyOperation.Check;
-                e.Amount = productParams.price;
-                e.Collback = action;
-                EventsHandler.Broadcast(e);
-            }
+            var e = Events.CurrencyOperation;
+            e.Operation = ECurrencyOperation.Check;
+            e.Amount = productParams.price;
+            e.Collback = action;
+            EventsHandler.Broadcast(e);
         }
 
-        public void OnAvailable()
+        public void OnPurchased()
         {
+            _available = false;
             substrate.color = offColorSubstrate;
             fromPurchase.SetActive(false);
             availableView.SetActive(true);

@@ -4,12 +4,14 @@ using EmptySoul.AdultTwitch.Core.GlobalEvents;
 using EmptySoul.AdultTwitch.Core.UserData;
 using EmptySoul.AdultTwitch.Core.View;
 using EmptySoul.AdultTwitch.Core.View.UserView;
+using EmptySoul.AdultTwitch.Mining;
 using UnityEngine;
 
 namespace EmptySoul.AdultTwitch.Core
 {
     public class DataManager : MonoBehaviour, IContextable
     {
+        [SerializeField] private MiningController _miningController;
         private User _activeUser;
         private InitCore _initCore;
 
@@ -22,6 +24,7 @@ namespace EmptySoul.AdultTwitch.Core
             _initCore.Context.Add(this);
             ViewBroker.Context = _initCore.Context;
             ControllersBroker.Context = _initCore.Context;
+            _miningController.Init();
         }
 
         public void InitUser(User user)
