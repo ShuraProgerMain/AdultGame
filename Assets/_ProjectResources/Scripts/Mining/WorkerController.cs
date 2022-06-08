@@ -47,9 +47,10 @@ namespace EmptySoul.AdultTwitch.Mining
             
             if (worker.lastTime > DateTime.MinValue)
             {
-                var dif = DateTime.UtcNow - worker.lastTime;
-                Debug.Log($"Diff time {dif.TotalSeconds} and result {(dif.TotalSeconds / waitTime.TotalSeconds) * worker.count}");
-                SendProfit((dif.TotalSeconds / waitTime.TotalSeconds) * worker.count);
+                var dif = DateTime.UtcNow.TimeOfDay.TotalSeconds - worker.lastTime.TimeOfDay.TotalSeconds;
+                var a = dif / waitTime.TotalSeconds;
+                Debug.Log(a * worker.count);
+                SendProfit(a * worker.count);
             }
 
             IsEnable = true;
